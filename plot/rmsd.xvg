@@ -1,0 +1,39 @@
+# This file was created Sun Mar  2 00:29:12 2025
+# Created by:
+#                       :-) GROMACS - gmx rms, 2024.3 (-:
+# 
+# Executable:   /root/software/gromacs-2024.3/bin/gmx
+# Data prefix:  /root/software/gromacs-2024.3
+# Working dir:  /root/complex_md
+# Command line:
+#   gmx rms -s md.tpr -f md_noPBC.xtc -o rmsd.xvg -tu ns -n index.ndx
+# gmx rms is part of G R O M A C S:
+#
+# GROtesk MACabre and Sinister
+#
+@    title "RMSD"
+@    xaxis  label "Time (ns)"
+@    yaxis  label "RMSD (nm)"
+@TYPE xy
+@ subtitle "C-alpha after lsq fit to Protein"
+   0.0000000    0.0000112
+   0.1000000    0.1401167
+   0.2000000    0.1189951
+   0.3000000    0.1482493
+   0.4000000    0.1326944
+   0.5000000    0.1458817
+   0.6000000    0.1402228
+   0.7000000    0.1288740
+   0.8000000    0.1419569
+   0.9000000    0.1694591
+   1.0000000    0.1807161
+   1.1000000    0.1758576
+   1.2000000    0.1801554
+   1.3000001    0.1812190
+   1.4000001    0.1565352
+   1.5000001    0.1915273
+   1.6000000    0.1503641
+   1.7000000    0.1572462
+   1.8000001    0.1878609
+   1.9000001    0.1689902
+   2.0000000    0.1444276

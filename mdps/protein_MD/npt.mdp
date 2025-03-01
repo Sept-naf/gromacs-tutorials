@@ -1,0 +1,41 @@
+define                  = -DPOSRES     ; 启用位置限制（按需调整）
+integrator              = md           ; 分子动力学积分器
+dt                      = 0.002        ; 时间步长2 fs（需约束所有键）
+nsteps                  = 1000000      ; 2000 ps模拟时间
+nstxtcout               = 5000         ; 每10 ps输出坐标
+nstvout                 = 5000         ; 每10 ps输出速度
+nstfout                 = 5000         ; 每10 ps输出力
+nstcalcenergy           = 100          ; 每100步计算能量
+nstenergy               = 1000         ; 每2 ps输出能量
+nstlog                  = 1000         ; 每2 ps输出日志
+; 非键相互作用
+cutoff-scheme           = Verlet       ; Verlet截断方案
+nstlist                 = 20           ; 优化邻居列表更新频率
+rlist                   = 1.0          ; 邻居列表半径
+coulombtype             = pme          ; PME处理静电
+rcoulomb                = 1.0          ; 静电截断1.0 nm
+vdwtype                 = Cut-off      ; 范德华截断
+vdw-modifier            = None
+rvdw                    = 1.0          ; 范德华截断1.0 nm
+; 温度控制
+tcoupl                  = V-rescale    ; V-rescale控温
+tc_grps                 = Protein Non-Protein  ; 分组控温
+tau_t                   = 0.2   0.2     ; V-rescale的时间常数
+ref_t                   = 310.0  310.0  ; 参考温度310 K
+
+; 压力控制
+pcoupl                  = C-rescale 
+pcoupltype              = isotropic    ; 各向同性压力
+tau_p                   = 0.5         ; 压力耦合时间常数
+compressibility         = 4.5e-5       ; 压缩率（水体系常用4.5e-5 bar-1）
+ref_p                   = 1.0          ; 参考压力1.0 bar
+; 约束参数
+constraints             = h-bonds    ; 约束
+constraint_algorithm    = LINCS        ; LINCS算法
+; 质心运动移除
+nstcomm                 = 100          ; 每100步移除质心运动
+comm_mode               = linear       ; 线性模式
+comm_grps               = Protein Non-Protein       ; 全系统质心移除
+; 参考坐标
+refcoord_scaling        = com          ; 基于质心缩放
+

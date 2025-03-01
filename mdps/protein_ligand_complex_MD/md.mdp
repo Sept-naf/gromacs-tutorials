@@ -1,0 +1,43 @@
+integrator   = md             ; leap-frog积分器
+nsteps       = 250000000      ; 500 ns模拟时间
+dt           = 0.002          ; 时间步长2 fs
+nstxout                = 50000         ; trr坐标输出
+nstvout                = 50000         ; 速度输出
+nstfout                = 50000         ; 力输出
+nstxout-compressed     = 50000         ; 每100 ps输出压缩轨迹
+compressed-x-precision = 1000          ; 轨迹精度
+compressed-x-grps      = Protein_MOL   ; 
+nstlog                 = 5000          ; 每10 ps输出日志
+nstenergy              = 5000          ; 每10 ps输出能量
+nstcalcenergy          = 100           ;
+; 非键相互作用
+cutoff-scheme           = Verlet
+nstlist                 = 20
+rlist                   = 1.0
+coulombtype             = pme
+rcoulomb                = 1.0
+vdwtype                 = Cut-off
+vdw-modifier            = None
+rvdw                    = 1.0
+; 温度控制
+tcoupl                  = Nose-Hoover    ; 
+tc_grps                 = Protein_MOL Water_and_ions; 分组控温
+tau_t                   = 1.0   1.0     ; 
+ref_t                   = 310.0  310.0  ; 参考温度310 K
+; 压力控制
+pcoupl                  = Parrinello-Rahman
+pcoupltype              = isotropic
+tau_p                   = 5.0         ; 
+compressibility         = 4.5e-5
+ref_p                   = 1.0
+; 约束参数
+constraints             = h-bonds    ; 约束
+constraint_algorithm    = LINCS
+continuation            = yes
+; 质心运动移除
+nstcomm                 = 100           ; 每100步移除质心运动
+comm_mode               = linear
+comm_grps               = Protein_MOL Water_and_ions
+; 参考坐标
+refcoord_scaling        = com
+

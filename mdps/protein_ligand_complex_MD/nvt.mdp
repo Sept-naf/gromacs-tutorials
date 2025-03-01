@@ -1,0 +1,38 @@
+define                  = -DPOSRES     ; 按需启用位置限制
+integrator              = md           ; 分子动力学积分器
+dt                      = 0.001        ; 时间步长1 fs
+nsteps                  = 500000       ; 500 ps模拟时间
+nstxtcout               = 5000         ; 每5 ps输出坐标
+nstvout                 = 5000         ; 每5 ps输出速度
+nstfout                 = 5000         ; 每5 ps输出力
+nstcalcenergy           = 100          ; 每100步计算能量
+nstenergy               = 1000         ; 每1 ps输出能量
+nstlog                  = 1000         ; 每1 ps输出日志
+; 非键相互作用
+cutoff-scheme           = Verlet       ; Verlet截断方案
+nstlist                 = 20           ; 邻居列表更新频率
+rlist                   = 1.0          ; 邻居列表半径
+coulombtype             = pme          ; PME处理静电
+rcoulomb                = 1.0          ; 静电截断1.0 nm
+vdwtype                 = Cut-off      ; 范德华截断
+vdw-modifier            = None
+rvdw                    = 1.0          ; 范德华截断1.0 nm
+; 温度控制
+tcoupl                  = V-rescale    ; V-rescale控温
+tc_grps                 = Protein_MOL Water_and_ions; 分组控温
+tau_t                   = 0.2   0.2     ; V-rescale的时间常数
+ref_t                   = 310.0  310.0  ; 参考温度310 K
+; 约束参数
+constraints             = h-bonds    ; 约束
+constraint_algorithm    = LINCS        ; LINCS算法
+; 质心运动移除
+nstcomm                 = 100          ; 每100步移除质心运动
+comm_mode               = linear       ; 线性模式
+comm_grps               = Protein_MOL Water_and_ions; 质心移除
+; 初始速度
+gen-vel                 = yes          ; 生成初始速度
+gen-temp                = 310.0        ; 初始温度300 K
+gen-seed                = -1           ; 随机种子
+; 参考坐标
+refcoord_scaling        = com          ; 基于质心缩放
+
