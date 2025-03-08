@@ -111,6 +111,8 @@ while True:
         continue
     resName = line[17:20]
     atomName = line[12:16].strip()
+    if atomName[0] == 'H':
+        continue
     chainId = line[21:22]
     resNum = int(line[22:26])
     if ((resName != lrN) or (chainId != lcI) or (resNum != lrU)):
