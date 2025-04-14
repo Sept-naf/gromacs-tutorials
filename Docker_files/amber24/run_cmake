@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#  This file gives some sample cmake invocations.  You may wish to
+#  edit some options that are chosen here.
+
+#  For information on how to get cmake, visit this page:
+#  https://ambermd.org/pmwiki/pmwiki.php/Main/CMake-Quick-Start
+
+#  For information on common options for cmake, visit this page:
+#  http://ambermd.org/pmwiki/pmwiki.php/Main/CMake-Common-Options
+
+#  (Note that you can change the value of CMAKE_INSTALL_PREFIX from what
+#  is suggested below, but it cannot coincide with the amber24_src
+#  folder.)
+
+AMBER_PREFIX=$(dirname $(dirname `pwd`))
+
+if [ `uname -s|awk '{print $1}'` = "Darwin" ]; then
+
+#  For macOS:
+
+  if [ -x /Applications/CMake.app/Contents/bin/cmake ]; then
+     cmake=/Applications/CMake.app/Contents/bin/cmake
+  else
+     cmake=cmake
+  fi
+
+  $cmake $AMBER_PREFIX/amber24_src \
+    -DCMAKE_INSTALL_PREFIX=$AMBER_PREFIX/amber24 \
+    -DCOMPILER=CLANG  -DBLA_VENDOR=Apple \
+    -DMPI=FALSE -DCUDA=TRUE -DINSTALL_TESTS=TRUE \
+    -DDOWNLOAD_MINICONDA=TRUE \
+    2>&1 | tee cmake.log
+
+else
+
+#  Assume this is Linux:
+
+  cmake $AMBER_PREFIX/amber24_src \
+    -DCMAKE_INSTALL_PREFIX=$AMBER_PREFIX/amber24 \
+    -DCOMPILER=GNU  \
+    -DMPI=FALSE -DCUDA=TRUE -DINSTALL_TESTS=TRUE \
+    -DDOWNLOAD_MINICONDA=TRUE \
+    2>&1 | tee  cmake.log
+
+fi
+
+if [ ! -s cmake.log ]; then
+  echo ""
+  echo "Error:  No cmake.log file created: you may need to edit run_cmake"
+  exit 1
+fi
+
+echo ""
+echo "If errors are reported, search for 'CMake Error' in the cmake.log file."
+echo ""
+echo "If the cmake build report looks OK, you should now do the following:"
+echo ""
+echo "    make install"
+echo "    source $AMBER_PREFIX/amber24/amber.sh"
+echo ""
+echo "Consider adding the last line to your login startup script, e.g. ~/.bashrc"
+echo ""
