@@ -11,7 +11,7 @@ RUN apt-get update && \
                        libboost-dev libboost-thread-dev libboost-system-dev mpich libmpich-dev \
                        python3 python-dev wget bc cmake git gromacs doxygen libfftw3-dev automake lsb-core
 
-ENV PATH="${PATH}:/opt/miniconda/bin:${PATH}"
+#ENV PATH="${PATH}:/opt/miniconda/bin:${PATH}"
 
 USER root
 
@@ -36,7 +36,3 @@ RUN pwd && \
     make install
 
 WORKDIR /work
-
-ENV AMBERHOME=/opt/amber24
-ENV PATH=/opt/amber24/bin:$PATH
-ENV LD_LIBRARY_PATH=/opt/amber24/lib:$LD_LIBRARY_PATH
