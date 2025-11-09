@@ -1,0 +1,21 @@
+; 能量最小化核心参数
+;----------------------------
+integrator              = steep     ; 最陡下降法（适合初步结构优化，稳定但较慢）
+; integrator            = cg       ; 可选：共轭梯度法（收敛更快，可在steep后切换使用）
+emtol                   = 10.0      ; 最大力收敛阈值（Amber推荐≤10.0 kJ/mol/nm，原值100.0过松）
+nsteps                  = 10000     ; 最大优化步数（确保足够步数以达emtol）
+;----------------------------
+; 非键相互作用参数
+;----------------------------
+cutoff-scheme           = Verlet    ; Verlet截断方案（自动管理邻居列表，推荐）
+nstlist                 = 20        ; 邻居列表更新频率（Verlet下推荐20-40）
+rlist                   = 1.2       ; 邻居列表截断半径（必须≥rvdw/rcoulomb）
+vdwtype                 = Cut-off   ; Amber标准范德华截断
+rvdw                    = 1.2       ; 范德华截断半径
+coulombtype             = pme       ; PME处理长程静电
+rcoulomb                = 1.2       ; 直接空间静电截断（与rvdw对齐）
+;----------------------------
+; 约束算法
+;----------------------------
+constraints             = h-bonds   ; 仅约束氢键（Amber力场参数化基于此设置）
+constraint_algorithm    = LINCS     ; LINCS算法（若需SHAKE需调整参数）

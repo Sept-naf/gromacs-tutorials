@@ -1,0 +1,59 @@
+;===============================================================
+;  Production MD – membrane protein in POPC, 2 fs time step
+;===============================================================
+
+; Run control
+integrator              = md
+dt                      = 0.002          ; 2 fs
+nsteps                  = 100000000      ; 200 ns (change as needed)
+
+; Output
+nstxout                 = 0              ; no uncompressed full-precision coords
+nstvout                 = 0              ; no velocities
+nstfout                 = 0              ; no forces
+nstxout-compressed      = 5000           ; 10-ps trajectory frames
+nstenergy               = 5000           ; 10 ps
+nstlog                  = 5000           ; 10 ps
+nstcalcenergy           = 1000
+
+; Neighbour list / electrostatics
+cutoff-scheme           = Verlet
+nstlist                 = 20
+rlist                   = 1.0
+coulombtype             = PME
+rcoulomb                = 1.0
+vdwtype                 = Cut-off
+vdw-modifier            = None
+rvdw                    = 1.0
+pme-order               = 4
+fourierspacing          = 0.12
+
+; Temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = Protein POPC Water_and_ions
+tau_t                   = 0.2  0.2  0.2
+ref_t                   = 310  310  310
+
+; Pressure coupling – semi-isotropic membrane
+pcoupl                  = Parrinello-Rahman   ; or C-rescale if you prefer
+pcoupltype              = semiisotropic
+tau_p                   = 5.0
+compressibility         = 4.5e-5  4.5e-5   ; xy  z  (bar⁻¹)
+ref_p                   = 1.0     1.0      ; 1 bar
+
+; Constraints
+constraints             = h-bonds
+constraint-algorithm    = lincs
+lincs-iter              = 1
+lincs-order             = 4
+
+; Remove COM motion
+nstcomm                 = 100          ; 每100步移除质心运动
+comm_mode               = linear       ; 线性模式
+comm_grps               = Protein POPC Water_and_ions       ; 全系统质心移除
+
+; Dispersion correction
+DispCorr                = EnerPres
+
+; Random seed (use -1 for random, or fix for reproducibility)
+ld-seed                 = -1

@@ -1,0 +1,51 @@
+;———————————————————————————
+;  NPT equilibration – membrane protein in POPC
+;———————————————————————————
+define                  = -DPOSRES -DNP   ; protein restraints (add -DNP if POPC_posre.itp used)
+integrator              = md
+dt                      = 0.002           ; 2 fs
+nsteps                  = 5000000         ; 10000 ps
+nstxout                 = 0
+nstvout                 = 0
+nstfout                 = 0
+nstxout-compressed      = 5000            ; 10-ps trajectory
+nstcalcenergy           = 100
+nstenergy               = 1000            ; 2 ps
+nstlog                  = 1000            ; 2 ps
+
+; Neighbour / electrostatics
+cutoff-scheme           = Verlet
+nstlist                 = 20
+rlist                   = 1.0
+coulombtype             = PME
+rcoulomb                = 1.0
+vdwtype                 = Cut-off
+vdw-modifier            = None
+rvdw                    = 1.0
+
+; Temperature coupling
+tcoupl                  = V-rescale
+tc-grps                 = Protein POPC Water_and_ions
+tau_t                   = 0.2  0.2  0.2
+ref_t                   = 310  310  310
+
+; Pressure coupling  – semi-isotropic membrane
+pcoupl                  = C-rescale
+pcoupltype              = semiisotropic
+tau_p                   = 5.0             ; 5 ps is stable for membranes
+compressibility         = 4.5e-5  4.5e-5  ; xy  z  (bar⁻¹)
+ref_p                   = 1.0     1.0     ; 1 bar lateral & normal
+
+; Constraints
+constraints             = h-bonds
+constraint-algorithm    = lincs
+lincs-iter              = 1
+lincs-order             = 4
+
+; Remove COM motion
+nstcomm                 = 100          ; 每100步移除质心运动
+comm_mode               = linear       ; 线性模式
+comm_grps               = Protein POPC Water_and_ions       ; 全系统质心移除
+
+; Reference coords
+refcoord-scaling        = com

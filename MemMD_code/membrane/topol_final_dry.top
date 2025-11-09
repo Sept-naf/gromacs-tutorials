@@ -1,0 +1,16 @@
+; Include forcefield parameters
+#include "amber99sb-ildn_slipids.ff/forcefield.itp"
+#include "protein_0.itp"
+#include "POPC.itp"
+#include "TIP3P.itp"
+#include "NA.itp"
+#include "CL.itp"
+[ system ]
+; Name
+Something clever....
+
+[ molecules ]
+; Compound        #mols
+protein_0    1
+POPC    160
+
